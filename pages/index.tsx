@@ -83,6 +83,7 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 
   // Toggle dark mode - Tailwind CSS v4 approach
@@ -147,7 +148,9 @@ export default function Home() {
           <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Santosh
           </div>
-          <div className="flex items-center gap-4">
+          
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-6">
             <a href="#about" className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
             <a href="#skills" className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Skills</a>
             <a href="#projects" className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Projects</a>
@@ -161,7 +164,44 @@ export default function Home() {
               {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
             </button>
           </div>
+          
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              aria-label="Toggle mobile menu"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
+        
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <div className="container mx-auto px-4 py-3 space-y-3">
+              <a href="#about" className="block py-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>About</a>
+              <a href="#skills" className="block py-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Skills</a>
+              <a href="#projects" className="block py-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Projects</a>
+              <a href="#resume" className="block py-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Resume</a>
+              <a href="#contact" className="block py-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -251,19 +291,27 @@ export default function Home() {
               </span>
             </motion.p>
             
-            {/* Tagline with enhanced glassmorphism and animation */}
+            {/* Tagline with enhanced animation */}
             <motion.div 
               className="mb-16 inline-block"
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-              whileHover={{ scale: 1.02 }}
             >
-              <div className="bg-white/90 backdrop-blur-xl px-10 py-5 rounded-full shadow-xl border border-gray-100/50">
-                <p className="text-lg md:text-xl text-gray-700 font-medium leading-relaxed">
-                  Passionate about building scalable applications, data-driven solutions, and contributing to impactful projects
-                </p>
-              </div>
+              <motion.p 
+                className="text-lg md:text-2xl text-gray-700 dark:text-gray-300 font-semibold leading-relaxed text-center"
+                animate={{ 
+                  opacity: [1, 0.8, 1],
+                  scale: [1, 1.02, 1]
+                }}
+                transition={{ 
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                Passionate about building scalable applications, data-driven solutions, and contributing to impactful projects
+              </motion.p>
             </motion.div>
             
             {/* CTA Buttons with enhanced hover effects and animations */}
@@ -432,12 +480,8 @@ export default function Home() {
 
       {/* Skills Section */}
       <section id="skills" className="py-20 px-4 relative overflow-hidden">
-        {/* Enhanced gradient background with subtle patterns */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-          <div className="absolute inset-0 opacity-10 dark:opacity-5">
-            <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern [mask-image:radial-gradient(circle,rgba(0,0,0,1)_1px,transparent_1px)] [background-size:20px_20px]"></div>
-          </div>
-        </div>
+        {/* Enhanced gradient background */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800"></div>
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -632,12 +676,8 @@ export default function Home() {
 
       {/* Projects Section */}
       <section id="projects" className="py-20 px-4 relative overflow-hidden">
-        {/* Enhanced gradient background with subtle patterns */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-          <div className="absolute inset-0 opacity-10 dark:opacity-5">
-            <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern [mask-image:radial-gradient(circle,rgba(0,0,0,1)_1px,transparent_1px)] [background-size:20px_20px]"></div>
-          </div>
-        </div>
+        {/* Enhanced gradient background */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800"></div>
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
